@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#101920" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23b5f5e6' d='M2 26 15 4l2 12-8 10zm14 0 6-12 8 12z'/%3E%3C/svg%3E" />
+    <title>殖民带模型图鉴 · SPACECRAFT V2</title>
+    <link rel="stylesheet" href="../game/interface/theme.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="mast">
+      <div class="brand">
+        <svg viewBox="0 0 36 30" aria-hidden="true"><path fill="currentColor" d="M1 27 15.4 2l2.3 12.7-7.1 12.4zm14.2 0L23 12.5 35 27l-10.6-3.4z"/><path fill="currentColor" opacity=".55" d="m8 28-1.4 2h-5l1.3-2zm22 0 2 2h-6l-1-2z"/></svg>
+        <span>SPACECRAFT</span><small>V2</small>
+      </div>
+      <nav>
+        <a href="./evolution.html"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h7v7H3zm11 0h7v7h-7zM3 15h7v5H3zm11 0h7v5h-7z"/></svg><span data-en="Airframe evolution">四阶对照</span></a>
+        <a href="../"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H4m7-7-7 7 7 7"/></svg><span data-en="Flight deck">出航机库</span></a>
+        <button id="lang" class="language" type="button">EN</button>
+      </nav>
+    </header>
+    <main>
+      <div class="stage">
+        <div class="specimen-caption">
+          <p class="section-label"><i aria-hidden="true"></i><span data-en="Model atlas">模型图鉴</span></p>
+          <h1 id="title">殖民带母体</h1>
+          <div id="meteor-controls" hidden>
+            <span><span data-en="Angular speed">自转角速度</span> <output id="meteor-speed" aria-live="off">7.5°/s</output></span>
+            <div><button type="button" id="meteor-light" data-en="Light hit">轻击</button>
+              <button type="button" id="meteor-heavy" data-en="Heavy hit">重击</button></div>
+          </div>
+          <label id="ship-light" hidden><input id="bloom" type="checkbox" checked /><span data-en="Bloom">辉光</span></label>
+        </div>
+        <canvas id="model" aria-label="殖民带三维模型">3D</canvas>
+        <section id="shield-replay" hidden aria-labelledby="shield-title">
+          <div class="shield-heading"><b id="shield-title" data-en="Shield test">护盾试射</b><strong id="shield-state"></strong></div>
+          <div class="shield-points">
+            <div>
+              <div class="shield-readout"><span id="shield-label" data-en="Shield">护盾</span><output id="shield-value" aria-hidden="true"></output></div>
+              <div id="shield-gauge" class="replay-meter" role="meter" aria-labelledby="shield-label" aria-valuemin="0"><i class="shield-trail"></i><i class="shield-fill"></i></div>
+            </div>
+            <div>
+              <div class="shield-readout"><span id="shield-health-label" data-en="HP">生命</span><output id="shield-health" aria-hidden="true"></output></div>
+              <div id="shield-health-gauge" class="replay-meter" role="meter" aria-labelledby="shield-health-label" aria-valuemin="0"><i class="shield-trail"></i><i class="shield-fill"></i></div>
+            </div>
+          </div>
+          <div class="shield-timing"><label for="shield-time" data-en="Replay">回放</label><output id="shield-clock" for="shield-time" aria-live="off"></output></div>
+          <input id="shield-time" type="range" min="0" max="17" value="0" step="0.001">
+          <div class="shield-cues">
+            <button type="button" data-shield-cue="hit" data-en="Hit">命中</button>
+            <button type="button" data-shield-cue="break" data-en="Break">破盾</button>
+            <button type="button" data-shield-cue="reform" data-en="Reform">重构</button>
+          </div>
+        </section>
+        <p id="status" role="status">正在载入模型…</p>
+      </div>
+      <footer>
+        <section>
+          <label for="specimen" data-en="Model">模型</label
+          ><select id="specimen" disabled></select>
+        </section>
+        <section>
+          <label for="clip" data-en="Animation">动作</label
+          ><select id="clip" disabled></select
+          ><button id="play" type="button" disabled>暂停</button>
+        </section>
+        <section>
+          <label for="view" data-en="View">视角</label
+          ><select id="view">
+            <option value="front" data-en="Front">正面</option>
+            <option value="flight" data-en="Flight angle">实战俯仰</option>
+            <option value="assembly" data-en="Assembly angle">装配斜视</option>
+            <option value="side" data-en="Side">侧面</option>
+            <option value="back" data-en="Back">背面</option>
+          </select>
+        </section>
+        <section id="iris-options" hidden><label for="iris" data-en="Eye color">瞳色</label>
+          <select id="iris">
+            <option value="auto" data-en="Individual variation">个体随机</option>
+            <option value="brown" data-en="Brown">棕色</option>
+            <option value="black" data-en="Black">黑色</option>
+            <option value="blue" data-en="Blue">蓝色</option>
+            <option value="green" data-en="Green">绿色</option>
+            <option value="red" data-en="Red">红色</option>
+          </select>
+        </section>
+        <section id="form-options" hidden><label for="form" data-en="Form">形态</label>
+          <select id="form">
+            <option value="normal" data-en="Normal">普通</option>
+            <option value="smart" data-en="Intelligent">智慧</option>
+            <option value="heavy" data-en="Heavy">重型</option>
+            <option value="heavy-smart" data-en="Heavy intelligent">重型智慧</option>
+          </select>
+        </section>
+        <section id="mother-layers" hidden><label for="layer" data-en="Anatomy">解剖层</label>
+          <select id="layer">
+            <option value="exterior" data-en="Exterior">完整外观</option>
+            <option value="muscle" data-en="Muscle and diaphragm">肌层与横膈</option>
+            <option value="tracts" data-en="Brood tracts and crypts">输送管与育囊</option>
+            <option value="skeleton" data-en="Internal chitin frame">几丁质内隔架</option>
+          </select>
+        </section>
+        <fieldset id="ship-modules" hidden>
+          <legend data-en="Loadout">战机装配</legend>
+          <div class="refits">
+            <label><span data-en="Airframe tier">机体阶位</span><select id="ship-hullTier"></select></label>
+            <label><span data-en="Nose weapon">机首武器</span><select id="ship-weapon"></select></label>
+            <label><span data-en="Specialization">专精</span><select id="ship-branch"></select></label>
+            <label><span data-en="Rank">等级</span><select id="ship-rank"></select></label>
+            <label><span data-en="Survival">生存组件</span><select id="ship-survival"></select></label>
+            <label><span data-en="Personal">个人技能</span><select id="ship-ability"></select></label>
+            <label><span data-en="Link">联协能力</span><select id="ship-link" aria-describedby="ship-link-detail"></select></label>
+          </div>
+          <p id="ship-link-detail"></p>
+          <details id="extra-fittings">
+            <summary data-en="Extra weapon mounts and airframe upgrades">额外炮位与舰体改装</summary>
+            <div class="advanced-fittings">
+              <fieldset>
+                <legend data-en="Slot 2 · Wing mounts">第二槽 · 双翼炮位</legend>
+                <label><span data-en="Weapon">武器</span><select id="ship-weapon2"></select></label>
+                <label><span data-en="Specialization">专精</span><select id="ship-branch2"></select></label>
+                <label><span data-en="Rank">等级</span><select id="ship-rank2"></select></label>
+              </fieldset>
+              <fieldset>
+                <legend data-en="Slot 3 · Dorsal mount">第三槽 · 背脊炮位</legend>
+                <label><span data-en="Weapon">武器</span><select id="ship-weapon3"></select></label>
+                <label><span data-en="Specialization">专精</span><select id="ship-branch3"></select></label>
+                <label><span data-en="Rank">等级</span><select id="ship-rank3"></select></label>
+              </fieldset>
+              <fieldset class="airframe-upgrades">
+                <legend data-en="Airframe upgrades">舰体改装</legend>
+                <label><span id="label-U01">U01 · 矢量喷口</span><select id="ship-U01"></select></label>
+                <label><span id="label-U03">U03 · 扩展机库</span><select id="ship-U03"></select></label>
+                <label><span id="label-U25">U25 · 主反应堆</span><select id="ship-U25"></select></label>
+              </fieldset>
+            </div>
+          </details>
+        </fieldset>
+        <details id="brood-layers" hidden>
+          <summary data-en="Anatomy layers">解剖图层</summary>
+          <div id="layer-list"></div>
+        </details>
+        <small data-en="Drag to orbit · Scroll to zoom"
+          >拖动旋转 · 滚轮缩放</small
+        >
+      </footer>
+    </main>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

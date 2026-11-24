@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#101920" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23b5f5e6' d='M2 26 15 4l2 12-8 10zm14 0 6-12 8 12z'/%3E%3C/svg%3E"/>
+    <title>机体四阶对照 · SPACECRAFT V2</title>
+    <link rel="stylesheet" href="../game/interface/theme.css" />
+    <link rel="stylesheet" href="./evolution.css" />
+  </head>
+  <body>
+    <header class="mast">
+      <a class="brand" href="../" aria-label="SPACECRAFT V2">
+        <svg viewBox="0 0 36 30" aria-hidden="true"><path fill="currentColor" d="M1 27 15.4 2l2.3 12.7-7.1 12.4zm14.2 0L23 12.5 35 27l-10.6-3.4z"/><path fill="currentColor" opacity=".55" d="m8 28-1.4 2h-5l1.3-2zm22 0 2 2h-6l-1-2z"/></svg>
+        <span>SPACECRAFT</span><small>V2</small>
+      </a>
+      <nav>
+        <a href="./?specimen=lancer"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H4m7-7-7 7 7 7"/></svg><span data-en="Model atlas">模型图鉴</span></a>
+        <button class="language" id="lang" type="button">EN</button>
+      </nav>
+    </header>
+    <main class="sheet">
+      <header class="sheet-head">
+        <h1 data-en="Airframe evolution">机体四阶对照</h1>
+      </header>
+      <div class="scroll-sheet">
+        <table class="matrix" aria-labelledby="matrix-caption">
+          <caption class="sr-only" id="matrix-caption" data-en="Four airframes at four tiers, all in top view at the same scale">四款机体在同尺度正俯视下的四个阶位</caption>
+          <colgroup><col class="callsign"/><col span="4"/></colgroup>
+          <thead><tr><th scope="col"><span class="sr-only" data-en="Airframe">机体</span></th><th scope="col">BASE</th><th scope="col">I</th><th scope="col">II</th><th scope="col">III</th></tr></thead>
+          <tbody id="matrix-body"></tbody>
+        </table>
+      </div>
+      <p id="status" role="status" data-en="Loading flight models…">正在载入战机模型…</p>
+      <footer>
+        <p data-en="Top view at a shared scale. Select a ship to inspect its loadout.">同尺度正俯视。点选机体可检查装配。</p>
+        <p data-en="All ships carry base W01. Vesper also shows a W07 bay and its two deployed light drones.">四机均安装基础 W01。暮萤另配 W07 母港，展示两架已部署的轻型无人机。</p>
+      </footer>
+    </main>
+    <script type="module" src="./evolution.js"></script>
+  </body>
+</html>

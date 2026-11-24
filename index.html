@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#101920" />
+    <title>殖民带 · SPACECRAFT V2</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%239de5d7' d='M2 26 15 4l2 12-8 10zm14 0 6-12 8 12z'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="./game/interface/theme.css" />
+    <link rel="stylesheet" href="./game/style.css" />
+  </head>
+  <body data-screen="briefing">
+    <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="i-fleet" viewBox="0 0 36 30">
+        <path fill="currentColor" d="M1 27 15.4 2l2.3 12.7-7.1 12.4zm14.2 0L23 12.5 35 27l-10.6-3.4z" />
+        <path fill="currentColor" opacity=".55" d="m8 28-1.4 2h-5l1.3-2zm22 0 2 2h-6l-1-2z" />
+      </symbol>
+      <symbol id="i-sound" viewBox="0 0 24 24"><path d="M3 9h4l5-4v14l-5-4H3zM16 8c3 2 3 6 0 8m3-11c5 4 5 10 0 14" /></symbol>
+      <symbol id="i-muted" viewBox="0 0 24 24"><path d="M3 9h4l5-4v14l-5-4H3zM16 9l6 6m0-6-6 6" /></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14m8-14v14" stroke-width="3.3" /></symbol>
+      <symbol id="i-grid" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9zm0 9 8-4.5M4 7.5l8 4.5v9" /></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M3 12h16m-6-6 6 6-6 6" /></symbol>
+      <symbol id="i-open" viewBox="0 0 24 24"><path d="M6 18 18 6M8 6h10v10" /></symbol>
+      <symbol id="i-card" viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8.5 8h7m-7 4h4m-4 4h7"/></symbol>
+      <symbol id="i-weapon" viewBox="0 0 24 24"><path d="M6 20l5-8m3-6 4-4m-8 6 4 3 5-8-3-1zM4 17l3 2"/></symbol>
+      <symbol id="i-specialize" viewBox="0 0 24 24"><path d="M12 21v-8m0 2-7-7V3m7 12 7-7V3M3 5l2-2 2 2m10 0 2-2 2 2"/></symbol>
+      <symbol id="i-supply" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9zm0 9 8-4.5M4 7.5l8 4.5v9"/></symbol>
+    </svg>
+    <header class="mast">
+      <div class="brand">
+        <svg aria-hidden="true"><use href="#i-fleet" /></svg>
+        <span>SPACECRAFT</span><small>V2</small>
+      </div>
+      <nav>
+        <a href="./viewer/"><svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg><span data-t="atlas">模型图鉴</span></a>
+        <button id="lang" class="language" type="button" aria-label="English">EN</button>
+        <button id="audio" type="button" data-label="enableSound"><svg class="icon" aria-hidden="true"><use href="#i-muted" /></svg></button>
+      </nav>
+    </header>
+    <main>
+      <div id="viewport">
+        <canvas id="game" data-label="canvas"></canvas>
+        <aside class="scene-caption" id="observation">
+          <span class="viewfinder" aria-hidden="true"></span>
+          <span><small data-t="inview">作战目标</small><strong data-t="mother">殖民带母体</strong></span>
+        </aside>
+      </div>
+      <section id="brief" aria-labelledby="chapter-title">
+        <div class="brief-inner">
+          <p class="section-label"><i aria-hidden="true"></i><span data-t="hangar">出航机库</span></p>
+          <h1 id="chapter-title" data-t="title">殖民带</h1>
+          <p class="brief-copy" data-t="synopsis">截击从孔口抛出的生殖腺，摧毁母体后清除余敌。</p>
+          <div class="hangar" role="group" data-label="editPilot">
+            <button type="button" class="rig" data-edit-slot="0" aria-pressed="true" aria-controls="outfit">
+              <canvas id="p1-preview" width="360" height="192" aria-hidden="true"></canvas>
+              <span class="seat">P1</span><span class="rig-summary"><b></b><small></small></span>
+            </button>
+            <button type="button" class="rig" data-edit-slot="1" aria-pressed="false" aria-controls="outfit">
+              <canvas id="p2-preview" width="360" height="192" aria-hidden="true"></canvas>
+              <span class="seat">P2</span><span class="rig-summary"><b></b><small></small></span>
+            </button>
+          </div>
+          <fieldset id="outfit">
+            <legend id="fit-pilot"></legend>
+            <div class="outfit-grid">
+              <label for="fit-hull"><span data-t="airframe">机体</span><select id="fit-hull"></select></label>
+              <a id="inspect-fit" href="./viewer/"><svg class="icon" aria-hidden="true"><use href="#i-grid" /></svg><span data-t="inspect">近看装配</span><svg class="icon" aria-hidden="true"><use href="#i-open" /></svg></a>
+              <label for="fit-weapon"><span data-t="weapon">武器</span><select id="fit-weapon"></select></label>
+              <label for="fit-survival"><span data-t="survivalSlot">生存组件</span><select id="fit-survival"></select></label>
+              <label for="fit-ability"><span data-t="personal">个人技能</span><select id="fit-ability"></select></label>
+              <label for="fit-link"><span data-t="linkSlot">联协能力</span><select id="fit-link"></select></label>
+            </div>
+            <p id="fit-detail" class="spec" aria-live="polite"></p>
+          </fieldset>
+          <fieldset>
+            <legend data-t="crew">机组编成</legend>
+            <div class="mode-options" id="modes">
+              <button type="button" data-mode="solo" aria-pressed="true" data-t="solo">单人 + AI</button>
+              <button type="button" data-mode="coop" aria-pressed="false" data-t="coop">本地双人</button>
+              <button type="button" data-mode="demo" aria-pressed="false" data-t="demo">双 AI 观战</button>
+            </div>
+            <label id="partner-option" for="choose-partner">
+              <input id="choose-partner" type="checkbox"><span data-t="choosePartner">我替伙伴选择</span>
+            </label>
+          </fieldset>
+          <button id="launch" type="button" class="primary" disabled><span data-t="launch">出航迎战母体</span><svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg></button>
+          <p class="controls" id="instructions"></p>
+          <p class="load" id="load" role="status" data-t="loading">正在装载星域…</p>
+        </div>
+      </section>
+      <div id="hud" hidden>
+        <div class="pilots" id="pilots"></div>
+        <div class="flight-command">
+          <div class="flight-target">
+            <div id="boss-hud" hidden>
+              <div class="boss-label"><b id="boss-name" data-t="mother">殖民带母体</b><span id="phase"></span></div>
+              <div class="boss-meter" role="meter" aria-labelledby="boss-name" aria-valuemin="0"><i id="boss-fill"></i><b></b><b></b><b></b></div>
+              <div class="boss-foot"><small id="armor"></small><span id="boss-health"></span></div>
+            </div>
+            <b id="wave" hidden></b>
+            <div id="toast" role="status" hidden></div>
+          </div>
+          <button id="pause" type="button" data-label="pause" aria-haspopup="dialog" aria-keyshortcuts="Escape" hidden><svg class="icon" aria-hidden="true"><use href="#i-pause" /></svg><kbd>Esc</kbd></button>
+        </div>
+      </div>
+      <div id="shade" hidden>
+        <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-body">
+          <p class="section-label"><i aria-hidden="true"></i><span id="dialog-context"></span></p>
+          <h2 id="dialog-title"></h2>
+          <p id="dialog-body"></p>
+          <dl id="dialog-stats" hidden></dl>
+          <div id="dialog-fits" hidden></div>
+          <div id="dialog-settings" hidden></div>
+          <div id="dialog-actions"></div>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="./game/main.js"></script>
+  </body>
+</html>
