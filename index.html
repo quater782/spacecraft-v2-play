@@ -6,8 +6,8 @@
     <meta name="theme-color" content="#101920" />
     <title>殖民带 · SPACECRAFT V2</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%239de5d7' d='M2 26 15 4l2 12-8 10zm14 0 6-12 8 12z'/%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="./game/interface/theme.css" />
-    <link rel="stylesheet" href="./game/style.css" />
+    <link rel="stylesheet" href="./game/interface/theme.css?v=dfc502cb0143" />
+    <link rel="stylesheet" href="./game/style.css?v=dfc502cb0143" />
   </head>
   <body data-screen="briefing">
     <svg class="symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -50,14 +50,19 @@
           <p class="section-label"><i aria-hidden="true"></i><span data-t="hangar">出航机库</span></p>
           <h1 id="chapter-title" data-t="title">殖民带</h1>
           <p class="brief-copy" data-t="synopsis">截击从孔口抛出的生殖腺，摧毁母体后清除余敌。</p>
+          <div id="trial-presets" class="trial-presets" role="group" data-label="pairPreset" hidden>
+            <span data-t="pairPreset">编队预设</span>
+            <button type="button" id="pair-stock" data-t="pairStock">双机白板</button>
+            <button type="button" id="pair-formed" data-t="pairFormed">双机成型</button>
+          </div>
           <div class="hangar" role="group" data-label="editPilot">
             <button type="button" class="rig" data-edit-slot="0" aria-pressed="true" aria-controls="outfit">
               <canvas id="p1-preview" width="360" height="192" aria-hidden="true"></canvas>
-              <span class="seat">P1</span><span class="rig-summary"><b></b><small></small></span>
+              <span class="seat">P1</span><span class="rig-summary"><b></b><small></small><span class="rig-build" hidden></span></span>
             </button>
             <button type="button" class="rig" data-edit-slot="1" aria-pressed="false" aria-controls="outfit">
               <canvas id="p2-preview" width="360" height="192" aria-hidden="true"></canvas>
-              <span class="seat">P2</span><span class="rig-summary"><b></b><small></small></span>
+              <span class="seat">P2</span><span class="rig-summary"><b></b><small></small><span class="rig-build" hidden></span></span>
             </button>
           </div>
           <fieldset id="outfit">
@@ -71,6 +76,20 @@
               <label for="fit-link"><span data-t="linkSlot">联协能力</span><select id="fit-link"></select></label>
             </div>
             <p id="fit-detail" class="spec" aria-live="polite"></p>
+            <details id="trial-editor" hidden>
+              <summary data-t="customStart">自选武器与天赋</summary>
+              <fieldset class="trial-mounts">
+                <legend data-t="startingWeapons">起始武器</legend>
+                <div><span data-t="noseMount">机首</span><strong id="trial-primary"></strong><select id="trial-grade-0" data-label="noseGrade"></select></div>
+                <div><label for="trial-gun-1" data-t="wingMount">双翼</label><select id="trial-gun-1"></select><select id="trial-grade-1" data-label="wingGrade"></select></div>
+                <div><label for="trial-gun-2" data-t="dorsalMount">背脊</label><select id="trial-gun-2"></select><select id="trial-grade-2" data-label="dorsalGrade"></select></div>
+              </fieldset>
+              <fieldset class="trial-talents">
+                <legend data-t="startTalents">开局天赋</legend>
+                <div id="trial-talents"></div>
+                <p id="trial-effect" class="spec" aria-live="polite" hidden></p>
+              </fieldset>
+            </details>
           </fieldset>
           <fieldset>
             <legend data-t="crew">机组编成</legend>
@@ -115,6 +134,6 @@
         </section>
       </div>
     </main>
-    <script type="module" src="./game/main.js"></script>
+    <script type="module" src="./game/main.js?v=dfc502cb0143"></script>
   </body>
 </html>
